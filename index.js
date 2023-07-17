@@ -18,24 +18,28 @@ const db = mysql.createConnection(
   console.log(`Connected to the human resources database.`)
 );
 
+
+// These functions show us the data in the employees, roles, and departments tables. //
 const viewAllEmployees = () => {
-  db.query("SELECT * FROM employees;", (err, result) => {console.table(result)});
+  db.query("SELECT * FROM employees;", (err, result) => {console.log(""), console.log("Your Results:"), console.table(result), console.log("")});
   loadMainPrompts();  
 };
 
 const viewAllRoles = () => {
-  db.query("SELECT * FROM roles;", (err, result) => {console.table(result)});
+  db.query("SELECT * FROM roles;", (err, result) => {console.log(""), console.log("Your Results:"),console.table(result), console.log("")});
   loadMainPrompts();  
 };
 
 const viewAllDepartments = () => {
-  db.query("SELECT * FROM departments;", (err, result) => {console.table(result)});
+  db.query("SELECT * FROM departments;", (err, result) => {console.log(""), console.log("Your Results:"),console.table(result), console.log("")});
   loadMainPrompts();  
 };
 
-// Create new employee entry in the employees table.
+// Creates a new employee entry in the employees table. //
 const createNewEmployees = () => {
   inquirer.prompt([
+    
+    // The following prompts are displayed: //
     {
       type: 'input',
       name: 'first_name',
@@ -57,6 +61,7 @@ const createNewEmployees = () => {
       message: 'Enter the manager ID of the employee (optional):',
     },
   ])
+  // The code below handles the user's responses and adds the entry to the employees table. //
   .then((answers) => {
     const { first_name, last_name, role_id, manager_id } = answers;
     const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);`;
@@ -71,9 +76,10 @@ const createNewEmployees = () => {
   });
 };
 
-// Create new role entry in the roles table.
+// Creates new role entry in the roles table.
 const createNewRoles = () => {
   inquirer.prompt([
+    // The following prompts are displayed: //
     {
       type: 'input',
       name: 'title',
@@ -90,6 +96,7 @@ const createNewRoles = () => {
       message: 'Enter the department ID of the role:',
     },
   ])
+  // The code below handles the user's responses and adds the entry to the roles table. //
   .then((answers) => {
     const { title, salary, department_id } = answers;
     const query = `INSERT INTO roles (title, salary, department_id) VALUES (?, ?, ?);`;
@@ -104,15 +111,17 @@ const createNewRoles = () => {
   });
 };
 
-// Create new department entry in the departments table.
+// Creates new department entry in the departments table.
 const createNewDepartments = () => {
   inquirer.prompt([
+    // The following prompts are displayed: //
     {
       type: 'input',
       name: 'name',
       message: 'Enter the name of the department:',
     },
   ])
+  // The code below handles the user's responses and adds the entry to the departments table. //
   .then((answers) => {
     const { name } = answers;
     const query = `INSERT INTO departments (name) VALUES (?);`;
@@ -180,10 +189,13 @@ const loadMainPrompts = () => {
   });
 }
 
+const quitApp = () => {
+  process.exit();
+};
+
 const init = () => {
   loadMainPrompts();
 }
 
-// REad and Write the data. //
 
 init();
