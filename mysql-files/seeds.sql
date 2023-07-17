@@ -18,12 +18,13 @@ VALUES
 
     INSERT INTO employees (id, first_name, last_name, role_id, manager_id)
 VALUES
-    ( 1, "John", "Doe", 0, 0 ),
-    ( 2, "Mike", "Chan", 1, 1, 1 ),
-    ( 3, "Ashley", "Rodriquez", 3, 5 ),
-    ( 4, "Kevin", "Tupik", 3, 5 ),
-    ( 5, "Kumal", "Singh", 4, 2 ),
-    ( 6, "Malia", "Brown", 5, 2 ),
-    ( 7, "Sarah", "Lourd", 6, 3 ),
-    ( 8, "Tom", "Allen", 7, 3 );
+-- Oh yeah code runs from top to bottom. --
+    ( 1, "John", "Doe", 1, NULL ),
+    ( 2, "Mike", "Chan", 1, 1 ),
+    ( 3, "Ashley", "Rodriquez", 3, NULL ),
+    ( 4, "Kevin", "Tupik", 3, 3 ),
+    ( 5, "Kumal", "Singh", 4, NULL ),
+    ( 6, "Malia", "Brown", 5, 4 ),
+    ( 7, "Sarah", "Lourd", 6, NULL ),
+    ( 8, "Tom", "Allen", 7, 7 );
 
