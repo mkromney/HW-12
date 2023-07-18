@@ -9,7 +9,7 @@
   This set of code is designed to work as a terminal-front end database navigator and editor.  
   
   Video Link of CLA:
-  https://watch.screencastify.com/v/X8KBLehs2LfLzieG3w9D
+  VIDEO LINK CONTAINS PRIVATE INFORMATION, NOT LINKED HERE FOR SECURITY. 
   
 
   ## Table of Contents
