@@ -8,11 +8,11 @@ const inquirer = require('inquirer');
 // Connect to database - db variable will store info to the hr_db for CRUD functionality.
 const db = mysql.createConnection(
   {
-    host: 'localhost',
+    host: '127.0.0.1',
     // MySQL username,
-    user: '',
+    user: 'root',
     // TODO: Add MySQL password here
-    password: '',
+    password: 'password1234',
     database: 'hr_db'
   },
   console.log(`Connected to the human resources database.`)
@@ -57,15 +57,20 @@ const createNewEmployees = () => {
     },
     {
       type: 'input',
+      name: 'salary',
+      message: 'Enter the salary of the employee:',
+    },
+    {
+      type: 'input',
       name: 'manager_id',
       message: 'Enter the manager ID of the employee (optional):',
     },
   ])
   // The code below handles the user's responses and adds the entry to the employees table. //
   .then((answers) => {
-    const { first_name, last_name, role_id, manager_id } = answers;
-    const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?);`;
-    db.query(query, [first_name, last_name, role_id, manager_id], (err, result) => {
+    const { first_name, last_name, role_id, salary, manager_id } = answers;
+    const query = `INSERT INTO employees (first_name, last_name, role_id, salary, manager_id) VALUES (?, ?, ?, ?, ?);`;
+    db.query(query, [first_name, last_name, role_id, salary, manager_id], (err, result) => {
       if (err) {
         console.log(err);
       } else {
@@ -196,6 +201,5 @@ const quitApp = () => {
 const init = () => {
   loadMainPrompts();
 }
-
 
 init();

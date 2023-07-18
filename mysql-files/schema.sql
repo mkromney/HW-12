@@ -24,6 +24,7 @@ CREATE TABLE employees(
   role_id INT NOT NULL,
   FOREIGN KEY (role_id)
   REFERENCES roles(id) ON DELETE CASCADE,
+  salary DECIMAL NOT NULL,
   manager_id INT,
   FOREIGN KEY (manager_id) 
   REFERENCES employees(id) 
