@@ -18,27 +18,41 @@ const db = mysql.createConnection(
   console.log(`Connected to the human resources database.`)
 );
 
-
 // These functions show us the data in the employees, roles, and departments tables. //
 const viewAllEmployees = () => {
-  db.query("SELECT * FROM employees;", (err, result) => {console.log(""), console.log("Your Results:"), console.table(result), console.log("")});
-  loadMainPrompts();  
+  db.query("SELECT * FROM employees;", (err, result) => {
+    // Creates a space and makes things easier to read. //
+    console.log("");
+    console.log("Your Results:");
+    console.table(result);
+    console.log("");
+    loadMainPrompts();
+  });
 };
 
 const viewAllRoles = () => {
-  db.query("SELECT * FROM roles;", (err, result) => {console.log(""), console.log("Your Results:"),console.table(result), console.log("")});
-  loadMainPrompts();  
+  db.query("SELECT * FROM roles;", (err, result) => {
+    console.log("");
+    console.log("Your Results:");
+    console.table(result);
+    console.log("");
+    loadMainPrompts();
+  });
 };
 
 const viewAllDepartments = () => {
-  db.query("SELECT * FROM departments;", (err, result) => {console.log(""), console.log("Your Results:"),console.table(result), console.log("")});
-  loadMainPrompts();  
+  db.query("SELECT * FROM departments;", (err, result) => {
+    console.log("");
+    console.log("Your Results:");
+    console.table(result);
+    console.log("");
+    loadMainPrompts();
+  });
 };
 
 // Creates a new employee entry in the employees table. //
 const createNewEmployees = () => {
   inquirer.prompt([
-    
     // The following prompts are displayed: //
     {
       type: 'input',
@@ -141,6 +155,68 @@ const createNewDepartments = () => {
   });
 };
 
+// Updates an employee entry in the employees table.
+const updateEmployeeEntry = () => {
+  inquirer.prompt([
+    // The following prompt is displayed:
+    {
+      type: 'input',
+      name: 'employee_id',
+      message: 'Enter the ID of the employee to update:',
+    },
+  ])
+  .then((answer) => {
+    const { employee_id } = answer;
+    inquirer.prompt([
+      // The following prompts are displayed:
+      {
+        type: 'input',
+        name: 'first_name',
+        message: 'Enter the new first name of the employee (leave blank if unchanged):',
+      },
+      {
+        type: 'input',
+        name: 'last_name',
+        message: 'Enter the new last name of the employee (leave blank if unchanged):',
+      },
+      {
+        type: 'input',
+        name: 'role_id',
+        message: 'Enter the new role ID of the employee (leave blank if unchanged):',
+      },
+      {
+        type: 'input',
+        name: 'salary',
+        message: 'Enter the new salary of the employee (leave blank if unchanged):',
+      },
+      {
+        type: 'input',
+        name: 'manager_id',
+        message: 'Enter the new manager ID of the employee (leave blank if unchanged):',
+      },
+    ])
+    .then((answers) => {
+      const { first_name, last_name, role_id, salary, manager_id } = answers;
+      const updates = {};
+      if (first_name) updates.first_name = first_name;
+      if (last_name) updates.last_name = last_name;
+      if (role_id) updates.role_id = role_id;
+      if (salary) updates.salary = salary;
+      if (manager_id) updates.manager_id = manager_id;
+
+      const query = `UPDATE employees SET ? WHERE id = ?`;
+      db.query(query, [updates, employee_id], (err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log('Employee entry updated successfully.');
+        }
+        loadMainPrompts();
+      });
+    });
+  });
+};
+
 // Incorporating inquire package allowing user to have interface. Adding functionality.
 const loadMainPrompts = () => {
   inquirer.prompt([{
@@ -166,6 +242,9 @@ const loadMainPrompts = () => {
       {
         name: "Create new department entry"
       },
+      {
+        name: "Update employee entry"
+      },
     ]
   }])
   .then((response) => {
@@ -188,11 +267,14 @@ const loadMainPrompts = () => {
       case "Create new department entry":
         createNewDepartments();
         break;
+      case "Update employee entry":
+        updateEmployeeEntry();
+        break;
       default:
         quitApp();
     }
   });
-}
+};
 
 const quitApp = () => {
   process.exit();
@@ -200,6 +282,6 @@ const quitApp = () => {
 
 const init = () => {
   loadMainPrompts();
-}
+};
 
 init();
