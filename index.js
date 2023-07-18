@@ -8,11 +8,11 @@ const inquirer = require('inquirer');
 // Connect to database - db variable will store info to the hr_db for CRUD functionality.
 const db = mysql.createConnection(
   {
-    host: '127.0.0.1',
+    host: 'localhost',
     // MySQL username,
-    user: 'root',
+    user: '',
     // TODO: Add MySQL password here
-    password: 'password1234',
+    password: '',
     database: 'hr_db'
   },
   console.log(`Connected to the human resources database.`)
